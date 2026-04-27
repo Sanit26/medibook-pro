@@ -1,0 +1,131 @@
+type UserId = principal;
+type UpdateDoctorInput = 
+ record {
+   availability: opt vec DaySchedule;
+   fees: opt nat;
+   isActive: opt bool;
+   name: opt text;
+   specialization: opt text;
+ };
+type Timestamp = int;
+type TimeSlot = text;
+type Role = 
+ variant {
+   Admin;
+   Patient;
+ };
+type RescheduleInput = 
+ record {
+   appointmentId: AppointmentId;
+   newDate: text;
+   newTimeSlot: text;
+ };
+type RegisterPatientInput = 
+ record {
+   dateOfBirth: text;
+   email: text;
+   name: text;
+   phone: text;
+ };
+type PatientProfilePublic = 
+ record {
+   createdAt: Timestamp;
+   dateOfBirth: text;
+   email: text;
+   name: text;
+   phone: text;
+   principalId: UserId;
+   role: Role;
+ };
+type DoctorPublic = 
+ record {
+   availability: vec DaySchedule;
+   createdAt: Timestamp;
+   fees: nat;
+   id: DoctorId;
+   isActive: bool;
+   name: text;
+   specialization: text;
+ };
+type DoctorId = nat;
+type DaySchedule = 
+ record {
+   day: DayOfWeek;
+   slots: vec TimeSlot;
+ };
+type DayOfWeek = 
+ variant {
+   Friday;
+   Monday;
+   Saturday;
+   Sunday;
+   Thursday;
+   Tuesday;
+   Wednesday;
+ };
+type BookAppointmentInput = 
+ record {
+   date: text;
+   doctorId: DoctorId;
+   timeSlot: text;
+ };
+type AppointmentStatus = 
+ variant {
+   Cancelled;
+   Completed;
+   Upcoming;
+ };
+type AppointmentPublic = 
+ record {
+   createdAt: Timestamp;
+   date: text;
+   doctorId: DoctorId;
+   fees: nat;
+   id: AppointmentId;
+   patientId: UserId;
+   status: AppointmentStatus;
+   timeSlot: text;
+   updatedAt: Timestamp;
+ };
+type AppointmentId = nat;
+type AddDoctorInput = 
+ record {
+   availability: vec DaySchedule;
+   fees: nat;
+   name: text;
+   specialization: text;
+ };
+service : {
+  addDoctor: (input: AddDoctorInput) -> (DoctorPublic);
+  assignAdmin: (targetPrincipal: UserId) -> ();
+  bookAppointment: (input: BookAppointmentInput) ->
+   (variant {
+      doubleBooking;
+      ok: AppointmentPublic;
+    });
+  cancelAppointment: (appointmentId: AppointmentId) ->
+   (variant {
+      notFound;
+      ok;
+      unauthorized;
+    });
+  deleteDoctor: (id: DoctorId) -> (bool);
+  getAllAppointments: () -> (vec AppointmentPublic);
+  getAvailableSlots: (doctorId: DoctorId, date: text, dayOfWeek:
+   DayOfWeek) -> (vec TimeSlot) query;
+  getDoctor: (id: DoctorId) -> (opt DoctorPublic) query;
+  getMyAppointments: () -> (vec AppointmentPublic) query;
+  getMyProfile: () -> (opt PatientProfilePublic) query;
+  isAdmin: () -> (bool) query;
+  listDoctors: () -> (vec DoctorPublic) query;
+  registerPatient: (input: RegisterPatientInput) -> (PatientProfilePublic);
+  rescheduleAppointment: (input: RescheduleInput) ->
+   (variant {
+      alreadyBooked;
+      notFound;
+      ok: AppointmentPublic;
+      unauthorized;
+    });
+  updateDoctor: (id: DoctorId, input: UpdateDoctorInput) ->
+   (opt DoctorPublic);
+}

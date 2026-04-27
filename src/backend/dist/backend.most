@@ -1,0 +1,72 @@
+// Version: 1.0.0
+type AppointmentId__729317175 = Nat;
+type AppointmentStatus__949193971 = {#Cancelled; #Completed; #Upcoming};
+type Appointment__77617247 =
+  {
+    createdAt : Timestamp__301639476;
+    date : Text;
+    doctorId : DoctorId__139287351;
+    fees : Nat;
+    id : AppointmentId__729317175;
+    patientId : UserId__158757552;
+    var status : AppointmentStatus__949193971;
+    timeSlot : Text;
+    var updatedAt : Timestamp__301639476
+  };
+type DayOfWeek__791624275 =
+  {#Friday; #Monday; #Saturday; #Sunday; #Thursday; #Tuesday; #Wednesday};
+type DaySchedule__306363894 =
+  {day : DayOfWeek__791624275; slots : [TimeSlot__34480255]};
+type DoctorId__139287351 = Nat;
+type Doctor__468753071 =
+  {
+    var availability : [DaySchedule__306363894];
+    createdAt : Timestamp__301639476;
+    var fees : Nat;
+    id : DoctorId__139287351;
+    var isActive : Bool;
+    var name : Text;
+    var specialization : Text
+  };
+type Int__270357528 = Int__616954475;
+type Int__616954475 = Int;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type PatientProfile__348291623 =
+  {
+    createdAt : Timestamp__301639476;
+    var dateOfBirth : Text;
+    var email : Text;
+    var name : Text;
+    var phone : Text;
+    principalId : UserId__158757552;
+    role : Role__300349085
+  };
+type Role__300349085 = {#Admin; #Patient};
+type TimeSlot__34480255 = Text;
+type Time__796480547 = Int__270357528;
+type Time__900049286 = Time__796480547;
+type Timestamp__301639476 = Time__900049286;
+type UserId__158757552 = Principal;
+actor {
+  stable var appointmentIdCounter : Nat;
+  stable appointments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Appointment__77617247]];
+      var elementIndex : Nat__490723111
+    };
+  stable var doctorIdCounter : Nat;
+  stable doctors :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Doctor__468753071]];
+      var elementIndex : Nat__490723111
+    };
+  stable profiles :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?PatientProfile__348291623]];
+      var elementIndex : Nat__490723111
+    }
+};

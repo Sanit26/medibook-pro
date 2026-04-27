@@ -1,0 +1,24 @@
+{
+  "overview": "A full-stack Patient Appointment Booking System with premium dark glassmorphism UI, role-based access for patients and admins, interactive calendar booking, doctor management, and smooth Framer Motion animations throughout.",
+  "features": [
+    "Patient and admin authentication with role-based access",
+    "Doctor listing with real-time search and filter by specialization",
+    "Interactive calendar with animated time slot selection",
+    "Book, reschedule, and cancel appointments with confirmation modals",
+    "Admin dashboard with system-wide appointment and doctor management",
+    "Premium dark glassmorphism theme with neon glow accents",
+    "Framer Motion page transitions and micro-interactions",
+    "Responsive on mobile and desktop"
+  ],
+  "category": "productivity",
+  "tags": [
+    "healthcare",
+    "appointments",
+    "booking",
+    "admin-dashboard",
+    "glassmorphism",
+    "dark-theme",
+    "framer-motion"
+  ],
+  "last_updated": "2026-04-27T15:24:37.933Z"
+}
